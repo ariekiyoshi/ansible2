@@ -1,0 +1,51 @@
+- name: install nginx
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: 
+    - nginx
+    - php-fpm
+    - php-mysql
+
+- name: create folder for landingpage
+  file:
+    path: /var/www/landing-page.example.id/html
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: delete default nginx sites avariable
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+
+- name: copy nginx configuration
+  copy:
+    src: files/default
+    dest: /etc/nginx/sites-available/default
+
+- name: create symlink nginx config
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  notify:
+    - reload nginx
+
+- name: git config safe directory
+  shell: git config --global --add safe.directory /var/www/landing-page.example.id/html
+
+- name: Clone code from github
+  git:
+    repo: https://github.com/adhithia21/sample-php.git
+    dest: /var/www/landing-page.example.id/html/
+    force: yes
+
+- name: copy database config
+  template:
+    src: templates/database.php.j2
+    dest: /var/www/landing-page.example.id/html/application/config/database.php

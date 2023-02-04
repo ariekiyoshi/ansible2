@@ -1,0 +1,13 @@
+- name: Setup Load Balancer
+  hosts: load-balancer
+  become: yes
+  roles:
+    - roles/update-os
+    - role: roles/nginx-load-balancer
+      vars:
+        domain: landing-page.example.id
+        server:
+          - host: 18.183.19.127
+            name: landing-page-1
+          - host: 13.115.177.47
+            name: landing-page-2

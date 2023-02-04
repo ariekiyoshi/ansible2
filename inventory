@@ -1,0 +1,13 @@
+[database]
+52.193.2.156
+
+[load-balancer]
+43.207.141.146
+
+[landing-page]
+18.183.19.127
+13.115.177.47
+
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/adhithia.pem

@@ -1,0 +1,6 @@
+- name: Setup Landing Page
+  hosts: landing-page
+  become: yes
+  roles:
+    - roles/update-os
+    - role: roles/landing-page

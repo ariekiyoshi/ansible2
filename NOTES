@@ -1,0 +1,4 @@
+Server:
+  - Database Server (mariadb-server)
+  - Load Balancer (load-balancer)
+  - Landing Page (landing-page-1, (landing-page-2)
